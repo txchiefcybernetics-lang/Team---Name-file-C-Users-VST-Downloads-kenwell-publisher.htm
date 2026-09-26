@@ -436,7 +436,7 @@ Ask TxBot: "Explain Trade Intelligence"
 - 🚀 **Deployment:** [Deployment guidelines](DEPLOYMENT.md)
 - 🐛 **Issues:** [Report bugs on GitHub](../../issues)
 - 💬 **Discussions:** [Community discussions](../../discussions)
-- 🌐 **TradeX:** [tradesxpress.com](https://tradesxpress.com)
+- 🌐 **TradeX:** [tradesxpress.com](https://tradesxpress.co)
 - 📞 **Contact:** support@tradesxpress.com | 09092821211
 
 ---
