@@ -14,10 +14,12 @@ A responsive web-based chatbot interface for the TxBot token management platform
 - User and bot message differentiation
 - Automatic scrolling to latest messages
 - Timestamp for each message
+- Searchable conversation history by topic or message, with selectable topics and short IDs, saved in the current browser
+- Welcome greeting defaults to `Debugger`; users can change the display name, which is saved locally in the current browser
 
 🎯 **Quick Start**
-- No build tools required
-- Pure HTML/CSS/JavaScript
+- Requires Node.js 18+ and npm
+- Uses Vite for local development and production builds
 - Easy to customize
 
 ## Files
@@ -29,48 +31,50 @@ A responsive web-based chatbot interface for the TxBot token management platform
 
 ## Usage
 
-1. Open `index.html` in a web browser
-2. Type a message in the input field
-3. Press Enter or click Send
-4. Bot responds based on keyword matching
+1. Run `npm ci` from `chatbot.ui/`
+2. Run `npm run dev -- --host 0.0.0.0`
+3. Open the local URL printed by Vite
+4. Set your first name in the welcome prompt if desired
+5. Type a message or choose a quick prompt
+
+The demo does not have authentication and cannot read a server-side account name. The optional first name is stored in the browser only.
 
 ## Customize
 
 ### Change Colors
-Edit the gradient in `styles.css`:
-```css
-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-```
 
-### Add Bot Responses
-Edit `botResponses` in `script.js`:
-```javascript
-const botResponses = {
-    'your-keyword': 'Your custom response',
-    // ...
-};
-```
+Edit the gradients and component styles in `styles.css`.
+
+### Add Local Replies
+
+Edit the `replies` object and `getLocalReply()` in `script.js`. Local keyword replies are used when `VITE_CHAT_API_URL` is not configured.
 
 ### Change Bot Name
-Update `<title>` and `.chat-header h1` in `index.html`
 
-## Integration
+Update the page `<title>` and `.chat-header h1` in `index.html`.
 
-To connect to a real backend:
+## Backend Integration
 
-1. Replace the `getBotResponse()` function in `script.js` with an API call:
-```javascript
-async function getBotResponse(userMessage) {
-    const response = await fetch('/api/chat', {
-        method: 'POST',
-        body: JSON.stringify({ message: userMessage })
-    });
-    const data = await response.json();
-    return data.reply;
+Copy `.env.example` to `.env` and set the API route:
+
+```env
+VITE_CHAT_API_URL=https://api.tradexpress.co/chat/write/example.ext
+```
+
+The UI sends a `POST` request with the current message and the conversation so far:
+
+```json
+{
+  "message": "What about security?",
+  "messages": [
+    { "role": "user", "content": "Tell me about tokens" },
+    { "role": "assistant", "content": "TxBot helps teams manage token workflows." },
+    { "role": "user", "content": "What about security?" }
+  ]
 }
 ```
 
-2. Update the chat form handler to use `await`
+The backend should use `messages` as conversational context and return JSON `{ "reply": "..." }`. Configure `VITE_CHAT_API_URL` with the URL of a backend that implements this contract; replace the example URL in `.env.example` with your deployed endpoint. For a separately hosted backend, configure CORS. Restart Vite after editing `.env`. Vite exposes `VITE_` variables to browser code, so never put secrets in them. Without a configured API, the demo uses limited local keyword replies and does not provide AI-generated responses.
 
 ## Browser Support
 
@@ -82,10 +86,11 @@ async function getBotResponse(userMessage) {
 ## Demo
 
 You can test the chatbot locally:
-1. Clone or download the repository
+1. Install Node.js 18+ and npm
 2. Navigate to the `chatbot.ui` directory
-3. Open `index.html` in your browser
-4. Start chatting!
+3. Run `npm ci`
+4. Run `npm run dev -- --host 0.0.0.0`
+5. Open the local URL printed by Vite
 
 ## Quick Start Commands
 
@@ -95,6 +100,8 @@ Try asking the chatbot:
 - "token" - Learn about tokens
 - "security" - Understand security features
 - "pilot" - Ask about the 90-day pilot program
+- "providers" - See the TradeX and TX services listed in the FAQ
+- "feedback" - Find the Tradexpress Community Discussions page
 
 ## Keyboard Shortcuts
 
@@ -115,29 +122,7 @@ Try asking the chatbot:
 
 ## API Integration Example
 
-Here's how to connect to a Python backend (like Kenwell.py):
-
-```javascript
-async function getBotResponse(userMessage) {
-    try {
-        const response = await fetch('http://localhost:5000/api/chat', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ message: userMessage })
-        });
-        
-        if (!response.ok) throw new Error('Network response failed');
-        
-        const data = await response.json();
-        return data.reply || 'No response received';
-    } catch (error) {
-        console.error('Error:', error);
-        return 'Sorry, I encountered an error. Please try again.';
-    }
-}
-```
+Configure `VITE_CHAT_API_URL` as described in [Backend Integration](#backend-integration). The backend should accept `{ "message": "...", "messages": [{ "role": "user|assistant", "content": "..." }] }` and return `{ "reply": "..." }`.
 
 ## License
 
@@ -164,7 +149,7 @@ Want to improve the chatbot UI? Feel free to:
 
 ## Support
 
-For questions or issues, please open a GitHub issue in the main repository.
+For product feedback or feature ideas, use [Tradexpress Community Discussions](https://tradexpress.co/orgs/community/discussions). Choose the closest category and check for an existing discussion before starting a new one. For bugs in this chatbot UI, use this repository's issue tracker if enabled.
 
 ---
 
