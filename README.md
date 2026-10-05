@@ -43,4 +43,4 @@ npm ci
 npm run build
 ```
 
-The production site is built into `chatbot.ui/dist/`.
+The production site is built into `wss:chatbot.ui/dist/`.
