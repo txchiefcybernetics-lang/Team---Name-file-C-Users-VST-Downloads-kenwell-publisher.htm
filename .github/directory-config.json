@@ -1,0 +1,64 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-07-07T00:00:00Z",
+  "directories": {
+    "chatbot.ui": {
+      "enabled": true,
+      "type": "application",
+      "description": "Frontend chatbot UI application",
+      "production": true,
+      "maintainer": "@team-frontend",
+      "status": "stable",
+      "version": "1.0.0"
+    },
+    "docs": {
+      "enabled": true,
+      "type": "documentation",
+      "description": "Documentation and guides",
+      "production": true,
+      "maintainer": "@team-docs",
+      "status": "stable",
+      "version": "1.0.0"
+    },
+    ".github": {
+      "enabled": true,
+      "type": "configuration",
+      "description": "GitHub workflows and configs",
+      "production": true,
+      "maintainer": "@team-devops",
+      "status": "stable",
+      "version": "1.0.0"
+    },
+    "backend": {
+      "enabled": false,
+      "type": "application",
+      "description": "Backend API (Archived)",
+      "production": false,
+      "maintainer": "@team-backend",
+      "status": "archived",
+      "version": "0.9.0",
+      "archived_date": "2026-06-15",
+      "reason": "Moved to separate repository"
+    },
+    "tests": {
+      "enabled": false,
+      "type": "testing",
+      "description": "Test suite (Pending)",
+      "production": false,
+      "maintainer": "@team-qa",
+      "status": "pending",
+      "version": "0.1.0",
+      "expected_completion": "2026-08-01"
+    },
+    "scripts": {
+      "enabled": false,
+      "type": "utility",
+      "description": "Deployment scripts (Pending)",
+      "production": false,
+      "maintainer": "@team-devops",
+      "status": "pending",
+      "version": "0.1.0",
+      "expected_completion": "2026-08-15"
+    }
+  }
+}
